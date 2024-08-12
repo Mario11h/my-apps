@@ -5,7 +5,7 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineDot from '@mui/lab/TimelineDot';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { Grid } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import { timelineDotStyles, StyledTimelineContent, FinishedIcon, TimelineStyle, StyledTypography } from './MilestonesStyles';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
@@ -21,9 +21,10 @@ interface MilestonesProps {
     milestones5?: string;
     milestonesDates?: string[];
   };
+  isEditMode?: boolean;
 }
 
-export const BasicTimeline: React.FC<MilestonesProps> = ({ milestones = [], isFinished, currentProject }) => {
+export const BasicTimeline: React.FC<MilestonesProps> = ({ milestones = [], isFinished, currentProject, isEditMode = false }) => {
   const filteredMilestones = milestones.filter((milestone) => milestone !== '');
   const lastIndex = filteredMilestones.length - 1;
   const middleMilestones = filteredMilestones.slice(1, lastIndex);
@@ -42,9 +43,18 @@ export const BasicTimeline: React.FC<MilestonesProps> = ({ milestones = [], isFi
                 {milestones.length > 1 && <TimelineConnector />}
               </TimelineSeparator>
               <StyledTimelineContent>
-                <StyledTypography>
-                  {currentProject.milestonesDates?.[0] || 'Project start date'}: {currentProject.milestones0}
-                </StyledTypography>
+                {isEditMode ? (
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    defaultValue={currentProject.milestones0}
+                    label={currentProject.milestonesDates?.[0] || 'Project start date'}
+                  />
+                ) : (
+                  <StyledTypography>
+                    {currentProject.milestonesDates?.[0] || 'Project start date'}: {currentProject.milestones0}
+                  </StyledTypography>
+                )}
               </StyledTimelineContent>
             </TimelineItem>
           )}
@@ -59,12 +69,21 @@ export const BasicTimeline: React.FC<MilestonesProps> = ({ milestones = [], isFi
                 <TimelineConnector />
               </TimelineSeparator>
               <StyledTimelineContent>
-                <StyledTypography>
-                  {`Milestone ${index + 1}: ${milestone}`}
-                  {!isFinished && index === middleMilestones.length - 1 && (
-                    <ArrowRightAltIcon style={{ transform: 'rotate(180deg)', marginLeft: '8px' }} />
-                  )}
-                </StyledTypography>
+                {isEditMode ? (
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    defaultValue={milestone}
+                    label={`Milestone ${index + 1}`}
+                  />
+                ) : (
+                  <StyledTypography>
+                    {`Milestone ${index + 1}: ${milestone}`}
+                    {!isFinished && index === middleMilestones.length - 1 && (
+                      <ArrowRightAltIcon style={{ transform: 'rotate(180deg)', marginLeft: '8px' }} />
+                    )}
+                  </StyledTypography>
+                )}
               </StyledTimelineContent>
             </TimelineItem>
           ))}
@@ -81,11 +100,22 @@ export const BasicTimeline: React.FC<MilestonesProps> = ({ milestones = [], isFi
                 {milestones.length > 1 && <TimelineConnector />}
               </TimelineSeparator>
               <StyledTimelineContent>
-                <StyledTypography>
-                  {currentProject.milestones5 && currentProject.milestones5 !== filteredMilestones[lastIndex]
-                    ? `Final Milestone: ${currentProject.milestones5}`
-                    : `${currentProject.milestonesDates?.[lastIndex + 1] || 'Project end date'}: ${filteredMilestones[lastIndex]}`}
-                </StyledTypography>
+                {isEditMode ? (
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    defaultValue={currentProject.milestones5 || filteredMilestones[lastIndex]}
+                    label={currentProject.milestones5 && currentProject.milestones5 !== filteredMilestones[lastIndex] 
+                      ? 'Final Milestone' 
+                      : currentProject.milestonesDates?.[lastIndex + 1] || 'Project end date'}
+                  />
+                ) : (
+                  <StyledTypography>
+                    {currentProject.milestones5 && currentProject.milestones5 !== filteredMilestones[lastIndex]
+                      ? `Final Milestone: ${currentProject.milestones5}`
+                      : `${currentProject.milestonesDates?.[lastIndex + 1] || 'Project end date'}: ${filteredMilestones[lastIndex]}`}
+                  </StyledTypography>
+                )}
               </StyledTimelineContent>
             </TimelineItem>
           )}

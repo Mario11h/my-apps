@@ -187,6 +187,16 @@ const App: React.FC = () => {
                       <AddchartIcon fontSize="inherit" />
                     </IconButton>
                   </Tooltip>
+                  <Tooltip title="Edit Project" TransitionComponent={Zoom} arrow>
+                    <IconButton
+                      color="primary"
+                      onClick={handleEditClick}
+                      size="large"
+                      sx={{ '&:hover svg': { transform: 'scale(1.2)' }, transition: 'transform 0.3s',color: 'rgba(4, 36, 106, 1)' }}
+                    >
+                      <EditIcon fontSize="inherit" />
+                    </IconButton>
+                  </Tooltip>
                   <Tooltip title="Download PDF" TransitionComponent={Zoom} arrow>
                     <IconButton
                       color="primary"
@@ -198,17 +208,6 @@ const App: React.FC = () => {
                     </IconButton>
                   </Tooltip>
                   <MultipleSelectCheckmarks handleDelete={handleDelete}  />
-
-                  <Tooltip title="Edit Project" TransitionComponent={Zoom} arrow>
-                    <IconButton
-                      color="primary"
-                      onClick={handleEditClick}
-                      size="large"
-                      sx={{ '&:hover svg': { transform: 'scale(1.2)' }, transition: 'transform 0.3s',color: 'rgba(4, 36, 106, 1)' }}
-                    >
-                      <EditIcon fontSize="inherit" />
-                    </IconButton>
-                  </Tooltip>
                 </Box>
 
                 <Box ref={componentRef}>
@@ -250,6 +249,7 @@ const App: React.FC = () => {
                                   milestones={getMilestones(currentProject ?? {} as Project)} 
                                   isFinished={!!currentProject?.milestones5?.length}
                                   currentProject={currentProject}
+                                  isEditMode={isEditMode}
                                 />
                               </StyledFullWidthGrayBox>
                             </div>
@@ -274,6 +274,7 @@ const App: React.FC = () => {
                   currentPage={currentPage} 
                   totalPages={totalPages} 
                   onPageChange={handlePageChange}
+                  projectName={currentProject?.project_name} // Pass the project name to Pagination
                 />
               </>
             }
