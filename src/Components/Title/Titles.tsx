@@ -571,39 +571,43 @@ const Title: React.FC<TitleProps> = ({
                 </IndividualContainer>
               </Item>
             </Grid>
-            <Button
-              type="button"
-              variant="contained"
-              color="primary"
-              sx={{ backgroundColor: 'rgba(4, 36, 106, 1)' }}
-              onClick={handleSubmit}
-            >
-              Submit
-            </Button>
-          </CategoriesBoxComponent>
-
-          <DraggableDialog open={dialogOpen} onClose={handleDialogClose} />
-          <Snackbar
-            open={snackbarOpen}
-            autoHideDuration={6000}
-            onClose={handleSnackbarClose}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            sx={{
-              '& .MuiSnackbarContent-root': {
-                display: 'flex',
-                justifyContent: 'center',
-                textAlign: 'center',
-              },
-            }}
-          >
-            <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
-              {snackbarMessage}
-            </Alert>
-          </Snackbar>
-        </form>
-      )}
-    />
-  );
-};
-
-export default Title;
+            {(edit || add) && (
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', mt: 2 }}>
+                <Button
+                  type="button"
+                  variant="contained"
+                  color="primary"
+                  sx={{ backgroundColor: 'rgba(4, 36, 106, 1)' }}
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
+              </Box>
+                        )}
+                        </CategoriesBoxComponent>
+              
+                        <DraggableDialog open={dialogOpen} onClose={handleDialogClose} />
+                        <Snackbar
+                          open={snackbarOpen}
+                          autoHideDuration={6000}
+                          onClose={handleSnackbarClose}
+                          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                          sx={{
+                            '& .MuiSnackbarContent-root': {
+                              display: 'flex',
+                              justifyContent: 'center',
+                              textAlign: 'center',
+                            },
+                          }}
+                        >
+                          <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
+                            {snackbarMessage}
+                          </Alert>
+                        </Snackbar>
+                      </form>
+                    )}
+                  />
+                );
+              };
+              
+              export default Title;
